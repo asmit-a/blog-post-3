@@ -29,6 +29,7 @@ class ImdbSpider(scrapy.Spider):
         @param self: an instance of this class.  
         @param response: the result of scrapy's HTTP request. 
         """
+
         # retrieves all the relative paths to the actors
         # listed on the Cast & Crew page
         actor_urls = [a.attrib["href"] for a in response.css("td.primary_photo a")]
@@ -40,10 +41,23 @@ class ImdbSpider(scrapy.Spider):
             yield Request(full_actor_url, callback = self.parse_actor_page)
 
     def parse_actor_page(self, response):
+        """
+        Assumes we start on an actor's IMDB page and generates
+        a dictionary containing the actor name and the works
+        in which they've participated as key-value pairs. 
+
+        @param self: an instance of this class.  
+        @param response: the result of scrapy's HTTP request. 
+        """
+
+        # retrieves the actor's name
         name_string = response.css("td.name-overview-widget__section h1.header span::text").get()
+        # retreieves a list of the works in which actor has participated
         filmography_rows = response.css("div.filmo-row")
         filmography = [row.css("a::text").get() for row in filmography_rows]
 
+        # loops through the title of each work 
+        # in which actor has participated
         for film in filmography: 
             yield {
                 "actor": name_string, 
