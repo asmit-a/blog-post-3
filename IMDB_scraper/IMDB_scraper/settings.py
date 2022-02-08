@@ -13,7 +13,7 @@ SPIDER_MODULES = ['IMDB_scraper.spiders']
 NEWSPIDER_MODULE = 'IMDB_scraper.spiders'
 
 # TEMPORARY: 
-CLOSESPIDER_PAGECOUNT = 20
+# CLOSESPIDER_PAGECOUNT = 20
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
